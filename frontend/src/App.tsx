@@ -1,5 +1,6 @@
 import { Header } from './components/Header';
 import { Dashboard } from './containers/Dashboard';
+import { XSS } from './Xss/XSS';
 
 console.log('error');
 
@@ -10,9 +11,9 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <img src='https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,f_auto,q_auto:eco,dpr_1/lm6ycpwrgyjqvpqaywj6'></img>
+      <XSS />
       <Dashboard />
-    </div>
+    </div >
   );
 }
 
