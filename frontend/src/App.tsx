@@ -3,6 +3,9 @@ import { Dashboard } from './containers/Dashboard';
 
 console.log('error');
 
+const password = '123Password';
+
+console.log(password);
 function App() {
   return (
     <div className="App">
