@@ -3,6 +3,11 @@ import './styles.css';
 
 export const XSS2 = () => {
     const data = 'lorem ipsum <img src="" onerror="alert(\'message\');" />';
+    const loop = true;
+
+    while (loop) {
+        console.log('infinite');
+    }
 
     return (
         <div
