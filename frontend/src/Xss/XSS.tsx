@@ -1,6 +1,15 @@
 import React from 'react';
 import './styles.css';
 
+export const XSS2 = () => {
+    const data = 'lorem ipsum <img src="" onerror="alert(\'message\');" />';
+
+    return (
+        <div
+            dangerouslySetInnerHTML={{ __html: data }}
+        />
+    );
+};
 
 export const XSS = () => {
     const defaultValue = '<img onError=alert(\'Hacked.\') src=\'invalid.url.com\'>';

@@ -1,6 +1,6 @@
 import { Header } from './components/Header';
 import { Dashboard } from './containers/Dashboard';
-import { XSS } from './Xss/XSS';
+import { XSS2 } from './Xss/XSS';
 
 console.log('error');
 
@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <XSS />
+      <XSS2 />
       <Dashboard />
     </div >
   );
