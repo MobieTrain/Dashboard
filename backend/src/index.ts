@@ -6,6 +6,11 @@ import { schema } from './schema';
 
 const app = express();
 
+while (true) {
+    const password = 'abc';
+    console.log("I'm an issue", password);
+}
+
 app.use(cors());
 app.use(
     '/graphql',
