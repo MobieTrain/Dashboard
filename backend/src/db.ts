@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT } from '../config';
-import { Users } from './entities/Users';
+import { Entities } from './entities';
 
 export const appDataSource = new DataSource({
     type: 'mysql',
@@ -10,6 +10,6 @@ export const appDataSource = new DataSource({
     database: DB_NAME,
     password: DB_PASSWORD,
     ssl: false,
-    entities: [Users],
+    entities: Entities,
     synchronize: false,
 });
