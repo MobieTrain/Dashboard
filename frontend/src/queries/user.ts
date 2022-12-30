@@ -3,23 +3,20 @@ import { gql } from '@apollo/client';
 export const GET_USERS = gql`
   query GetUsers {
     getUsers {
-        country
-        email
         id
-        isInvited
-        isRegistered
-        jobPosition
-        lastName
         name
+        lastName
+        country
+        role
         isInvited
         isRegistered
     }
   }
 `;
 
-export const GET_REGISTERED_USERS_STATISTICS = gql`
-  query GetRegisteredUsersStatistics {
-    getRegisteredUsersStatistics {
+export const GET_USER_REGISTRATION_STATISTICS = gql`
+  query GetUserRegistrationStatistics {
+    getUserRegistrationStatistics {
       average
       totalRegisteredUsers
       totalInvitations
@@ -27,9 +24,9 @@ export const GET_REGISTERED_USERS_STATISTICS = gql`
   }
 `;
 
-export const GET_TOTAL_USERS_BY_COUNTRY = gql`
-  query GetTotalUsersByCountry {
-    getTotalUsersByCountry {
+export const GET_USERS_BY_COUNTRY = gql`
+  query GetUsersByCountry {
+    getUsersByCountry {
       country
       totalCount
       percentage
@@ -38,10 +35,10 @@ export const GET_TOTAL_USERS_BY_COUNTRY = gql`
 `;
 
 
-export const GET_TOTAL_USERS_BY_JOB_POSITION = gql`
-  query GetTotalUsersByJobPosition {
-    getTotalUsersByJobPosition {
-      jobPosition
+export const GET_USERS_BY_ROLE = gql`
+  query GetUsersByRole {
+    getUsersByRole {
+      role
       totalCount
       percentage
     }

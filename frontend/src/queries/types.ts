@@ -1,10 +1,9 @@
 export type User = {
-    country: string;
-    email: string;
     id: number;
+    name: string;
+    lastName: string;
+    role: string;
+    country: string;
     isInvited: boolean;
     isRegistered: boolean;
-    jobPosition: string[];
-    lastName: string;
-    name: string;
 }
