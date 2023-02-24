@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { DocumentNode, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useState } from 'react';
-import { User, UserMT } from '../queries/types';
+import { User } from '../queries/types';
+import { GET_USERS } from '../queries/user';
 
 type Checkbox = {
     onClick: () => void;
@@ -17,17 +18,13 @@ const Checkbox: React.FC<Checkbox> = ({ onClick }) => {
     );
 };
 
-type Table = {
-    query: DocumentNode;
-}
-
-export const Table: React.FC<Table> = ({ query }) => {
-    const { loading, error, data } = useQuery(query);
+export const Table = () => {
+    const { loading, error, data } = useQuery(GET_USERS);
     const [isTableShown, setIsTableShown] = useState(false);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Upps...There is an error. :( </p>;
-    const users = data?.getUsers || data?.getUsersMT;
+    const users = data?.getUsers;
 
     const handleShowTable = () => {
         setIsTableShown(!isTableShown);
@@ -41,24 +38,24 @@ export const Table: React.FC<Table> = ({ query }) => {
                     <table className="w-11/12 border border-separate table-fixed border-slate-400">
                         <thead>
                             <tr>
-                                <th className='border border-slate-300'>id</th>
-                                <th className='border border-slate-300'>email</th>
-                                <th className='border border-slate-300'>first_name</th>
-                                <th className='border border-slate-300'>last_name</th>
-                                <th className='border border-slate-300'>job_position</th>
-                                <th className='border border-slate-300'>role_id</th>
+                                <th className='border border-slate-300'>First Name</th>
+                                <th className='border border-slate-300'>Last name</th>
+                                <th className='border border-slate-300'>Country</th>
+                                <th className='border border-slate-300'>Role</th>
+                                <th className='border border-slate-300'>Invited</th>
+                                <th className='border border-slate-300'>Registered</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map((user: User | UserMT) => {
+                            {users.map((user: User) => {
                                 return (
                                     <tr key={user.id}>
-                                        <td className='border border-slate-300'>{user.id}</td>
-                                        <td className='border border-slate-300'>{user.email}</td>
-                                        <td className='border border-slate-300'>{user.first_name}</td>
-                                        <td className='border border-slate-300'>{user.last_name}</td>
-                                        <td className='border border-slate-300'>{user.job_position}</td>
-                                        <td className='border border-slate-300'>{user.role_id}</td>
+                                        <td className='border border-slate-300'>{user.name}</td>
+                                        <td className='border border-slate-300'>{user.lastName}</td>
+                                        <td className='border border-slate-300'>{user.country}</td>
+                                        <td className='border border-slate-300'>{user.role}</td>
+                                        <td className='border border-slate-300'>{user.isInvited.toString()}</td>
+                                        <td className='border border-slate-300'>{user.isRegistered.toString()}</td>
                                     </tr>
                                 );
                             })}
@@ -68,5 +65,4 @@ export const Table: React.FC<Table> = ({ query }) => {
         </>
     );
 };
-
 
