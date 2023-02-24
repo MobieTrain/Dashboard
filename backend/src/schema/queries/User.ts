@@ -1,7 +1,7 @@
 import { GraphQLList } from 'graphql';
 import { Users } from '../../entities/Users';
 import { Countries } from '../../entities/Countries';
-import { getUsersByCountrySuccessPayload, getTUsersByRoleSuccessPayload, UserRegistrationStatistics, UsersByCountry, UsersByRole, User } from '../types/User';
+import { GetUsersByCountrySuccessPayload, GetTUsersByRoleSuccessPayload, UserRegistrationStatistics, UsersByCountry, UsersByRole, User } from '../types/User';
 import { Roles } from '../../entities/Roles';
 
 
@@ -31,7 +31,7 @@ export const GET_USER_REGISTRATION_STATISTICS = {
 export const GET_USERS_BY_COUNTRY = {
     type: new GraphQLList(UsersByCountry),
     resolve: async () => {
-        const result: getUsersByCountrySuccessPayload[] = [];
+        const result: GetUsersByCountrySuccessPayload[] = [];
         const countries = await Countries.find();
         const users = await Users.find();
         countries.map(country => {
@@ -50,7 +50,7 @@ export const GET_USERS_BY_COUNTRY = {
 export const GET_USERS_BY_ROLE = {
     type: new GraphQLList(UsersByRole),
     resolve: async () => {
-        const result: getTUsersByRoleSuccessPayload[] = [];
+        const result: GetTUsersByRoleSuccessPayload[] = [];
         const roles = await Roles.find();
         const users = await Users.find();
         roles.map(role => {

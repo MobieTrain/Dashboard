@@ -1,16 +1,16 @@
 import { GraphQLString } from 'graphql';
 import { Users } from '../../entities/Users';
-import { User } from '../types/User';
+import { CreateUserPayload, User } from '../types/User';
 
 export const CREATE_USER = {
     type: User,
     args: {
-        name: {type: GraphQLString},
-        lastName: {type: GraphQLString},
-        country: {type: GraphQLString},
-        role: {type: GraphQLString}
+        name: { type: GraphQLString },
+        lastName: { type: GraphQLString },
+        country: { type: GraphQLString },
+        role: { type: GraphQLString }
     },
-    resolve: async (_: any, args: any) => {
+    resolve: async (_: unknown, args: CreateUserPayload) => {
         const { name, lastName, country, role } = args;
 
         const result = await Users.insert({
