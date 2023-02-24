@@ -56,14 +56,21 @@ export const UsersByRole = new GraphQLObjectType({
     }
 });
 
-export type getUsersByCountrySuccessPayload = {
+export type GetUsersByCountrySuccessPayload = {
     country: string;
     totalCount: number;
     percentage: number;
 }
 
-export type getTUsersByRoleSuccessPayload = {
+export type GetTUsersByRoleSuccessPayload = {
     role: string;
     totalCount: number;
     percentage: number;
+}
+
+export type CreateUserPayload = {
+    name: string;
+    lastName: string;
+    country: string;
+    role: string;
 }
