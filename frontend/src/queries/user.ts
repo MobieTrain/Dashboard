@@ -14,6 +14,19 @@ export const GET_USERS = gql`
   }
 `;
 
+export const GET_USERS_MT = gql`
+  query GetUsersMT {
+    getUsersMT {
+        id
+        email
+        first_name
+        last_name
+        job_position
+        role_id
+    }
+  }
+`;
+
 export const GET_USER_REGISTRATION_STATISTICS = gql`
   query GetUserRegistrationStatistics {
     getUserRegistrationStatistics {

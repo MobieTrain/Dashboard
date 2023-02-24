@@ -19,5 +19,8 @@ export class User extends BaseEntity {
     last_name: string;
 
     @Column()
+    job_position: string;
+
+    @Column()
     role_id: number;
 }
