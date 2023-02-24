@@ -2,7 +2,7 @@ import * as React from 'react';
 import { LineChart as LineChartRechart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 export type LineChartProps = {
-  data: any[];
+  data: unknown[];
   dataKey: string;
   xAxisKeys: string;
 }

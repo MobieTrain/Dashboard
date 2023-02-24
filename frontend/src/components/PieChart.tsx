@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Label, LabelList, Pie, PieChart as PieChartRechart } from 'recharts';
 
 export type PieChartProps = {
-    data: any[];
+    data: unknown[];
     dataKey: string;
     nameKey: string;
 }

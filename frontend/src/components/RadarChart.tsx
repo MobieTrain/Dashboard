@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RadarChart as RadarChartRechart, PolarAngleAxis, PolarRadiusAxis, PolarGrid, Radar, Legend } from 'recharts';
 
 type RadarChartProps = {
-    data: any[];
+    data: unknown[];
 }
 
 export const RadarChart: React.FC<RadarChartProps> = ({ data }) => {

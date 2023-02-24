@@ -3,7 +3,7 @@ import { BarChart as BarChartRechart, Bar, CartesianGrid, Legend, Tooltip, XAxis
 import { LayoutType } from 'recharts/types/util/types';
 
 export type BarChartProps = {
-    data: any[];
+    data: unknown[];
     dataKey: string;
     xAxisKeys?: string;
     yAxisKeys?: string;

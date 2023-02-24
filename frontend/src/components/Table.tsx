@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DocumentNode, useQuery } from '@apollo/client';
 import { useState } from 'react';
-import { User, UserMT } from '../queries/types';
+import { UserMT } from '../queries/types';
 
 type Checkbox = {
     onClick: () => void;
@@ -50,7 +50,7 @@ export const Table: React.FC<Table> = ({ query }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map((user: User | UserMT) => {
+                            {users.map((user: UserMT) => {
                                 return (
                                     <tr key={user.id}>
                                         <td className='border border-slate-300'>{user.id}</td>
