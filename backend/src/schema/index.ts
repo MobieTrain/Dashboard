@@ -1,8 +1,8 @@
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 import { CREATE_USER } from './mutations/User';
-import { GET_USERS, GET_USER_REGISTRATION_STATISTICS, GET_USERS_BY_COUNTRY, GET_USERS_BY_ROLE } from './queries/User';
+import { GET_USERS, GET_USERS_BY_COUNTRY, GET_USERS_BY_ROLE, GET_USER_REGISTRATION_STATISTICS } from './queries/User';
+import { GET_REGISTERED_USERS_PER_CLIENT, GET_REGISTERED_USERS_PER_CLIENT_PER_DAY } from './queries/dev/RegisterUsers';
 import { GET_USERS_MT } from './queries/dev/Users';
-import { GET_ACCOUNTS_USERS_ID, GET_REGISTERED_USERS_PER_CLIENT, GET_REGISTERED_USERS_PER_DAY } from './queries/dev/RegisterUsers';
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQuery',
@@ -13,9 +13,8 @@ const RootQuery = new GraphQLObjectType({
         getUsersByRole: GET_USERS_BY_ROLE,
         // MT
         getUsersMT: GET_USERS_MT,
-        getRegisteredUsersPerDay: GET_REGISTERED_USERS_PER_DAY,
         getRegisteredUsersPerClient: GET_REGISTERED_USERS_PER_CLIENT,
-        getAccountsUsersId: GET_ACCOUNTS_USERS_ID,
+        getRegisteredUsersPerClientPerDay: GET_REGISTERED_USERS_PER_CLIENT_PER_DAY,
     }
 });
 

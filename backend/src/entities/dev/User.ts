@@ -21,6 +21,6 @@ export class User extends BaseEntity {
     @Column()
     last_me: Date;
 
-    // @Column({ nullable: true })
-    // eula_accepted_at: Date | null;
+    @Column()
+    eula_accepted_at: Date;
 }

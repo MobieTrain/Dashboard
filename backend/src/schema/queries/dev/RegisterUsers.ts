@@ -1,7 +1,8 @@
 import { GraphQLList } from 'graphql';
+import { appDataSource } from '../../../db';
+import { AccountUser } from '../../../entities/dev/AccountUser';
 import { User } from '../../../entities/dev/User';
 import { AccountsUsersId, UserMT } from '../../types/dev/MT';
-import { AccountUser } from '../../../entities/dev/AccountUser';
 
 export const GET_ACCOUNTS_USERS_ID = {
     type: new GraphQLList(AccountsUsersId),
@@ -13,35 +14,33 @@ export const GET_ACCOUNTS_USERS_ID = {
 
 export const GET_REGISTERED_USERS_PER_CLIENT = {
     // Client: 1 - Cloudoki
+    // Client 635 - RSTest
     type: new GraphQLList(UserMT),
     resolve: async () => {
-        const result = await User.find();
+        const result = await appDataSource
+            .getRepository(User)
+            .createQueryBuilder('user')
+            .innerJoin('account_user', 'account_user', 'user.id = account_user.user_id')
+            .where('account_user.account_id = :id', { id: 635 })
+            .andWhere('user.eula_accepted_at IS NOT NULL')
+            .andWhere('user.last_name != "Deleted"')
+            .getMany();
         return result;
     }
 };
 
-export const GET_REGISTERED_USERS_PER_DAY = {
+export const GET_REGISTERED_USERS_PER_CLIENT_PER_DAY = {
     type: new GraphQLList(UserMT),
     resolve: async () => {
-        const result = await User.find();
+        const result = await appDataSource
+            .getRepository(User)
+            .createQueryBuilder('user')
+            .innerJoin('account_user', 'account_user', 'user.id = account_user.user_id')
+            .where('account_user.account_id = :id', { id: 635 })
+            .andWhere('user.eula_accepted_at > :date', { date: '2023-05-09' })
+            .andWhere('user.last_name != "Deleted"')
+            .getMany();
         return result;
     }
+
 };
-
-// export const TEST = {
-//     type: new GraphQLList(Account),
-//     resolve: async () => {
-//         const accountID = 1;
-//         const accounts = await AccountUser.find({
-//             where: {
-//                 account_id: accountID,
-//             },
-//         });
-//         const users = await User.find();
-
-//         // const users = await User.findBy({
-//         //     eula_accepted_at: Not(IsNull())
-//         // });
-//         // return users;
-//     }
-// };
