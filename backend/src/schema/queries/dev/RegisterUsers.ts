@@ -1,12 +1,12 @@
 import { GraphQLList } from 'graphql';
-import { Users } from '../../../entities/dev/Users';
+import { User } from '../../../entities/dev/User';
 import { UserMT } from '../../types/dev/MT';
 
 export const GET_REGISTERED_USERS_PER_CLIENT = {
     // Client: 1 - Cloudoki
     type: new GraphQLList(UserMT),
     resolve: async () => {
-        const result = await Users.find();
+        const result = await User.find();
         return result;
     }
 };
@@ -14,7 +14,7 @@ export const GET_REGISTERED_USERS_PER_CLIENT = {
 export const GET_REGISTERED_USERS_PER_DAY = {
     type: new GraphQLList(UserMT),
     resolve: async () => {
-        const result = await Users.find();
+        const result = await User.find();
         return result;
     }
 };

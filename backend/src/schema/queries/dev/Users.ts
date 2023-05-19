@@ -1,11 +1,11 @@
 import { GraphQLList } from 'graphql';
-import { Users } from '../../../entities/dev/Users';
+import { User } from '../../../entities/dev/User';
 import { UserMT as UserMT } from '../../types/dev/MT';
 
 export const GET_USERS_MT = {
     type: new GraphQLList(UserMT),
     resolve: async () => {
-        const result = await Users.find();
+        const result = await User.find();
         return result;
     }
 };
