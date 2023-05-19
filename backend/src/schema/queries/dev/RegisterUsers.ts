@@ -1,6 +1,15 @@
 import { GraphQLList } from 'graphql';
 import { User } from '../../../entities/dev/User';
-import { UserMT } from '../../types/dev/MT';
+import { AccountsUsersId, UserMT } from '../../types/dev/MT';
+import { AccountUser } from '../../../entities/dev/AccountUser';
+
+export const GET_ACCOUNTS_USERS_ID = {
+    type: new GraphQLList(AccountsUsersId),
+    resolve: async () => {
+        const result = await AccountUser.find();
+        return result;
+    }
+};
 
 export const GET_REGISTERED_USERS_PER_CLIENT = {
     // Client: 1 - Cloudoki

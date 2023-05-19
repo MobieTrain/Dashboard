@@ -1,4 +1,4 @@
-import { GraphQLID, GraphQLObjectType, GraphQLString } from 'graphql';
+import { GraphQLID, GraphQLInt, GraphQLObjectType, GraphQLString } from 'graphql';
 import { DateType } from '../ScalarTypes';
 
 export const UserMT = new GraphQLObjectType({
@@ -14,10 +14,10 @@ export const UserMT = new GraphQLObjectType({
     }
 });
 
-// export const AccountsUsersId = new GraphQLObjectType({
-//     name: 'AccountsUsersId',
-//     fields: {
-//         account_id: { type: GraphQLInt },
-//         user_id: { type: GraphQLInt },
-//     }
-// });
+export const AccountsUsersId = new GraphQLObjectType({
+    name: 'AccountsUsersId',
+    fields: {
+        account_id: { type: GraphQLInt },
+        user_id: { type: GraphQLInt },
+    }
+});
