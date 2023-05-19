@@ -1,6 +1,5 @@
 import { GraphQLBoolean, GraphQLFloat, GraphQLID, GraphQLInt, GraphQLObjectType, GraphQLString } from 'graphql';
 
-
 export const User = new GraphQLObjectType({
     name: 'User',
     fields: {
@@ -13,20 +12,6 @@ export const User = new GraphQLObjectType({
         isRegistered: { type: GraphQLBoolean }
     }
 });
-
-export const UserMT = new GraphQLObjectType({
-    name: 'UserMT',
-    fields: {
-        id: { type: GraphQLID },
-        email: { type: GraphQLString },
-        username: { type: GraphQLString },
-        first_name: { type: GraphQLString },
-        last_name: { type: GraphQLString },
-        job_position: { type: GraphQLString },
-        role_id: { type: GraphQLInt }
-    }
-});
-
 
 export const UserRegistrationStatistics = new GraphQLObjectType({
     name: 'UserRegistrationStatistics',

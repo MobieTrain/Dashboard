@@ -21,8 +21,8 @@ export const GET_USERS_MT = gql`
         email
         first_name
         last_name
-        job_position
-        role_id
+        last_me
+        eula_accepted_at
     }
   }
 `;

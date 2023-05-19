@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class User extends BaseEntity {
+export class Users extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -19,8 +19,8 @@ export class User extends BaseEntity {
     last_name: string;
 
     @Column()
-    job_position: string;
+    last_me: Date;
 
-    @Column()
-    role_id: number;
+    // @Column({ nullable: true })
+    // eula_accepted_at: Date | null;
 }

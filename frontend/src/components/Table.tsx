@@ -45,8 +45,8 @@ export const Table: React.FC<Table> = ({ query }) => {
                                 <th className='border border-slate-300'>email</th>
                                 <th className='border border-slate-300'>first_name</th>
                                 <th className='border border-slate-300'>last_name</th>
-                                <th className='border border-slate-300'>job_position</th>
-                                <th className='border border-slate-300'>role_id</th>
+                                <th className='border border-slate-300'>last_me</th>
+                                <th className='border border-slate-300'>eula_accepted_at</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,8 +57,8 @@ export const Table: React.FC<Table> = ({ query }) => {
                                         <td className='border border-slate-300'>{user.email}</td>
                                         <td className='border border-slate-300'>{user.first_name}</td>
                                         <td className='border border-slate-300'>{user.last_name}</td>
-                                        <td className='border border-slate-300'>{user.job_position}</td>
-                                        <td className='border border-slate-300'>{user.role_id}</td>
+                                        <td className='border border-slate-300'>{user.last_me?.toString() ?? ''}</td>
+                                        <td className='border border-slate-300'>{user.eula_accepted_at?.toString() ?? ''}</td>
                                     </tr>
                                 );
                             })}

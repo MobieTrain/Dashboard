@@ -3,6 +3,6 @@ export type UserMT = {
     email: string;
     first_name: string;
     last_name: string;
-    job_position: string;
-    role_id: number;
+    last_me: Date;
+    eula_accepted_at: Date;
 }
