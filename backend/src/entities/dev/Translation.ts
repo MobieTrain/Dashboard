@@ -1,14 +1,17 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Level extends BaseEntity {
+export class Translation extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    learning_path_id: number;
+    content: string;
 
     @Column()
-    title: number;
+    i18n_id: number;
+
+    @Column()
+    locale_id: number;
 }

@@ -1,4 +1,4 @@
-import { GraphQLList } from 'graphql';
+import { GraphQLInt, GraphQLList, GraphQLString } from 'graphql';
 import { appDataSource } from '../../../db';
 import { AccountUser } from '../../../entities/dev/AccountUser';
 import { User } from '../../../entities/dev/User';
@@ -13,15 +13,17 @@ export const GET_ACCOUNTS_USERS_ID = {
 };
 
 export const GET_REGISTERED_USERS_PER_CLIENT = {
-    // Client: 1 - Cloudoki
-    // Client 635 - RSTest
     type: new GraphQLList(UserMT),
-    resolve: async () => {
+    args: {
+        accountId: { type: GraphQLInt },
+    },
+    resolve: async (_: unknown, args: { accountId: number }) => {
+        const { accountId } = args;
         const result = await appDataSource
             .getRepository(User)
             .createQueryBuilder('user')
             .innerJoin('account_user', 'account_user', 'user.id = account_user.user_id')
-            .where('account_user.account_id = :id', { id: 635 })
+            .where('account_user.account_id = :id', { id: accountId })
             .andWhere('user.eula_accepted_at IS NOT NULL')
             .andWhere('user.last_name != "Deleted"')
             .getMany();
@@ -30,16 +32,19 @@ export const GET_REGISTERED_USERS_PER_CLIENT = {
 };
 
 export const GET_REGISTERED_USERS_PER_CLIENT_PER_DAY = {
-    // Client 635 - RSTest
-    // Date - '2023-05-09'
     type: new GraphQLList(UserMT),
-    resolve: async () => {
+    args: {
+        accountId: { type: GraphQLInt },
+        date: { type: GraphQLString }
+    },
+    resolve: async (_: unknown, args: { accountId: number, date: string }) => {
+        const { accountId, date } = args;
         const result = await appDataSource
             .getRepository(User)
             .createQueryBuilder('user')
             .innerJoin('account_user', 'account_user', 'user.id = account_user.user_id')
-            .where('account_user.account_id = :id', { id: 635 })
-            .andWhere('user.eula_accepted_at > :date', { date: '2023-05-09' })
+            .where('account_user.account_id = :id', { id: accountId })
+            .andWhere('user.eula_accepted_at > :date', { date })
             .andWhere('user.last_name != "Deleted"')
             .getMany();
         return result;

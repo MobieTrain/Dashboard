@@ -1,13 +1,13 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Level extends BaseEntity {
+export class Skill extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    learning_path_id: number;
+    level_id: number;
 
     @Column()
     title: number;

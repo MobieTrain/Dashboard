@@ -1,5 +1,4 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Level } from './Level';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class LearningPath extends BaseEntity {
@@ -22,7 +21,4 @@ export class LearningPath extends BaseEntity {
         },
     })
     published: boolean;
-
-    @OneToMany(() => Level, (level) => level.learningPath)
-    levels?: Level[];
 }

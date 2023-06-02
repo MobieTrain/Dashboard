@@ -1,0 +1,78 @@
+# Development accounts ids:
+# 1 - Cloudoki
+# 635 - RSTest
+# 880 - JV account
+
+# 1.1
+
+query GetRegisteredUsersPerClient {
+  getRegisteredUsersPerClient(accountId: 635) {
+    id
+    email
+    username
+    first_name
+    last_name
+    last_me
+    eula_accepted_at
+  }
+}
+
+query GetRegisteredUsersPerClientPerDay {
+  getRegisteredUsersPerClientPerDay(accountId: 635, date: "2023-05-09") {
+    id
+    email
+    username
+    first_name
+    last_name
+    last_me
+    eula_accepted_at
+  }
+}
+
+# 1.3
+
+query GetLearningPathsMT {
+  getLearningPathsMT {
+    id
+    published
+    account_id
+    slug
+  }
+}
+
+query GetPublishedLearningPathsMT {
+  getPublishedLearningPathsMT {
+    id
+    published
+    account_id
+    slug
+  }
+}
+
+query GetNumberOfPublishedLearningPathsMT {
+  getNumberOfPublishedLearningPathsMT {
+    count
+  }
+}
+
+# 1.4
+
+query GetPublishedLearningMoments {
+  getPublishedLearningMomentsMT {
+    id
+    title
+  }
+}
+
+query GetPublishedLearningMomentsWithFullTitles {
+  getPublishedLearningMomentsWithFullTitlesMT {
+    id
+    title
+  }
+}
+
+query GetNumberOfPublishedLearningMomentsMT {
+  getNumberOfPublishedLearningMoments {
+    count
+  }
+}

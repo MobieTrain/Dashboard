@@ -39,11 +39,17 @@ export const NumberOfPublishedLearningPaths = new GraphQLObjectType({
     }
 });
 
-export const LevelMT = new GraphQLObjectType({
-    name: 'LevelMT',
+export const ModuleMT = new GraphQLObjectType({
+    name: 'ModuleMT',
     fields: {
         id: { type: GraphQLID },
         title: { type: GraphQLString },
-        learning_path_id: { type: GraphQLInt },
+    }
+});
+
+export const NumberOfPublishedLearningMoments = new GraphQLObjectType({
+    name: 'NumberOfPublishedLearningMoments',
+    fields: {
+        count: { type: GraphQLInt },
     }
 });
