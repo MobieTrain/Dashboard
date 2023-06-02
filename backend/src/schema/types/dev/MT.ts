@@ -1,4 +1,4 @@
-import { GraphQLID, GraphQLInt, GraphQLObjectType, GraphQLString } from 'graphql';
+import { GraphQLBoolean, GraphQLID, GraphQLInt, GraphQLObjectType, GraphQLString } from 'graphql';
 import { DateType } from '../ScalarTypes';
 
 export const UserMT = new GraphQLObjectType({
@@ -19,5 +19,31 @@ export const AccountsUsersId = new GraphQLObjectType({
     fields: {
         account_id: { type: GraphQLInt },
         user_id: { type: GraphQLInt },
+    }
+});
+
+export const LearningPathMT = new GraphQLObjectType({
+    name: 'LearningPathMT',
+    fields: {
+        id: { type: GraphQLID },
+        account_id: { type: GraphQLInt },
+        slug: { type: GraphQLString },
+        published: { type: GraphQLBoolean },
+    }
+});
+
+export const NumberOfPublishedLearningPaths = new GraphQLObjectType({
+    name: 'NumberOfPublishedLearningPaths',
+    fields: {
+        count: { type: GraphQLInt },
+    }
+});
+
+export const LevelMT = new GraphQLObjectType({
+    name: 'LevelMT',
+    fields: {
+        id: { type: GraphQLID },
+        title: { type: GraphQLString },
+        learning_path_id: { type: GraphQLInt },
     }
 });
