@@ -23,7 +23,7 @@ export const GET_REGISTERED_USERS_PER_CLIENT = {
             .getRepository(User)
             .createQueryBuilder('user')
             .innerJoin('account_user', 'account_user', 'user.id = account_user.user_id')
-            .where('account_user.account_id = :id', { id: accountId })
+            .where('account_user.account_id = :accountId', { accountId })
             .andWhere('user.eula_accepted_at IS NOT NULL')
             .andWhere('user.last_name != "Deleted"')
             .getMany();

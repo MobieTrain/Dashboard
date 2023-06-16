@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { useQuery } from '@apollo/client';
-import { GET_USER_REGISTRATION_STATISTICS } from '../queries/user';
 
 type SummaryItem = {
     numberText: string;
@@ -18,12 +16,13 @@ const SummaryItem: React.FC<SummaryItem> = ({ numberText, text, style }) => {
     );
 };
 
-export const Summary = () => {
-    const { loading, error, data: statisticsData } = useQuery(GET_USER_REGISTRATION_STATISTICS);
+export const Summary: React.FC<any> = ({ data }) => {
+    // const { loading, error, data: statisticsData } = useQuery(GET_USER_REGISTRATION_STATISTICS);
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Upps...There is an error. :( </p>;
-    const data = statisticsData?.getUserRegistrationStatistics;
+    // if (loading) return <p>Loading...</p>;
+    // if (error) return <p>Upps...There is an error. :( </p>;
+    // const data = statisticsData?.getUserRegistrationStatistics;
+    console.log(data);
 
     return (
         <>
