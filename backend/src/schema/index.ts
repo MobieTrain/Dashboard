@@ -5,6 +5,7 @@ import { GET_REGISTERED_USERS_PER_CLIENT, GET_REGISTERED_USERS_PER_CLIENT_PER_DA
 import { GET_USERS_MT } from './queries/dev/Users';
 import { GET_LEARNING_PATHS, GET_NUMBER_OF_PUBLISHED_LEARNING_PATHS, GET_PUBLISHED_LEARNING_PATHS } from './queries/dev/LearningPaths';
 import { GET_NUMBER_OF_PUBLISHED_LEARNING_MOMENTS, GET_PUBLISHED_LEARNING_MOMENTS, GET_PUBLISHED_LEARNING_MOMENTS_WITH_FULL_TITLES } from './queries/dev/LearningMoments';
+import { GET_ACTIVE_USERS_BY_ACCOUNT, GET_ACTIVE_USERS_BY_ACCOUNT_AND_DAY, GET_ACTIVE_USERS_BY_ACCOUNT_AND_DAY_COUNT, GET_ACTIVE_USERS_BY_ACCOUNT_COUNT, GET_ACTIVE_USERS_BY_DAY, GET_ACTIVE_USERS_BY_DAY_COUNT } from './queries/dev/ActiveUsers';
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQuery',
@@ -18,6 +19,13 @@ const RootQuery = new GraphQLObjectType({
         // Metric 1.1
         getRegisteredUsersPerClient: GET_REGISTERED_USERS_PER_CLIENT,
         getRegisteredUsersPerClientPerDay: GET_REGISTERED_USERS_PER_CLIENT_PER_DAY,
+        // Metric 1.2
+        getActiveUsersByAccount: GET_ACTIVE_USERS_BY_ACCOUNT,
+        getActiveUsersByAccountCount: GET_ACTIVE_USERS_BY_ACCOUNT_COUNT,
+        getActiveUsersByDay: GET_ACTIVE_USERS_BY_DAY,
+        getActiveUsersByDayCount: GET_ACTIVE_USERS_BY_DAY_COUNT,
+        getActiveUsersByAccountAndDay: GET_ACTIVE_USERS_BY_ACCOUNT_AND_DAY,
+        getActiveUsersByAccountAndDayCount: GET_ACTIVE_USERS_BY_ACCOUNT_AND_DAY_COUNT,
         // Metric 1.3
         getLearningPathsMT: GET_LEARNING_PATHS,
         getPublishedLearningPathsMT: GET_PUBLISHED_LEARNING_PATHS,

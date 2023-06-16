@@ -29,6 +29,56 @@ query GetRegisteredUsersPerClientPerDay {
   }
 }
 
+# 1.2
+
+query GetActiveUsersByAccount {
+  getActiveUsersByAccount(accountId: 880) {
+    id
+    email
+    username
+    first_name
+    last_name
+  }
+}
+
+query GetActiveUsersByAccountCount {
+  getActiveUsersByAccountCount(accountId: 880) {
+    count
+  }
+}
+
+query GetActiveUsersByDay {
+  getActiveUsersByDay(date: "2023-06-13") {
+    id
+    email
+    username
+    first_name
+    last_name
+  }
+}
+
+query GetActiveUsersByDayCount {
+  getActiveUsersByDayCount(date: "2023-06-13") {
+    count
+  }
+}
+
+query GetActiveUsersByAccountAndDay {
+  getActiveUsersByAccountAndDay(accountId: 880, date: "2023-06-13") {
+    id
+    email
+    username
+    first_name
+    last_name
+  }
+}
+
+query GetActiveUsersByAccountAndDayCount {
+  getActiveUsersByAccountAndDayCount(accountId: 880, date: "2023-06-13") {
+    count
+  }
+}
+
 # 1.3
 
 query GetLearningPathsMT {

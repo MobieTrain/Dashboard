@@ -1,5 +1,5 @@
 import { GraphQLList } from 'graphql';
-import { ModuleMT, NumberOfPublishedLearningMoments } from '../../types/dev/MT';
+import { CountResponse, ModuleMT } from '../../types/dev/MT';
 import { appDataSource } from '../../../db';
 import { Module } from '../../../entities/dev/Module';
 import { Locale } from '../../../entities/dev/Locale';
@@ -57,7 +57,7 @@ export const GET_PUBLISHED_LEARNING_MOMENTS_WITH_FULL_TITLES = {
 };
 
 export const GET_NUMBER_OF_PUBLISHED_LEARNING_MOMENTS = {
-    type: NumberOfPublishedLearningMoments,
+    type: CountResponse,
     resolve: async () => {
         const count = await appDataSource
             .getRepository(Module)
