@@ -2,13 +2,31 @@ import { GraphQLInt, GraphQLList, GraphQLString } from 'graphql';
 import { appDataSource } from '../../../db';
 import { AccountUser } from '../../../entities/dev/AccountUser';
 import { User } from '../../../entities/dev/User';
-import { AccountsUsersId, UserMT } from '../../types/dev/MT';
+import { AccountsUsersId, NumberOfUsersPerClient, UserMT } from '../../types/dev/MT';
 
 export const GET_ACCOUNTS_USERS_ID = {
     type: new GraphQLList(AccountsUsersId),
     resolve: async () => {
         const result = await AccountUser.find();
         return result;
+    }
+};
+
+export const GET_USERS_PER_CLIENT = {
+    type: NumberOfUsersPerClient,
+    args: {
+        accountId: { type: GraphQLInt },
+    },
+    resolve: async (_: unknown, args: { accountId: number }) => {
+        const { accountId } = args;
+        const count = await appDataSource
+            .getRepository(User)
+            .createQueryBuilder('user')
+            .innerJoin('account_user', 'account_user', 'user.id = account_user.user_id')
+            .where('account_user.account_id = :accountId', { accountId })
+            .andWhere('user.last_name != "Deleted"')
+            .getCount();
+        return { count };
     }
 };
 

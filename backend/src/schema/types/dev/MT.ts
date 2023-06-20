@@ -15,6 +15,13 @@ export const UserMT = new GraphQLObjectType({
     }
 });
 
+export const NumberOfUsersPerClient = new GraphQLObjectType({
+    name: 'NumberOfUsersPerClient',
+    fields: {
+        count: { type: GraphQLInt },
+    }
+});
+
 export const AccountsUsersId = new GraphQLObjectType({
     name: 'AccountsUsersId',
     fields: {
