@@ -13,11 +13,11 @@ export const UserStatistics: React.FC<any> = ({ data }) => {
 
     console.log('data user', data);
 
-
+    const average = (data.registered * 100 / data.total).toFixed(2);
     const data2 = {
-        totalInvitations: data,
-        average: data,
-        totalRegisteredUsers: data
+        totalInvitations: data.total,
+        average,
+        totalRegisteredUsers: data.registered
     };
     return <>
 
