@@ -11,7 +11,7 @@ const SummaryItem: React.FC<SummaryItem> = ({ numberText, text, style }) => {
     return (
         <div className={finalStyles}>
             <p className='text-4xl font-bold'>{numberText}</p>
-            <p>{text}</p>
+            <p className='text-center'>{text}</p>
         </div>
     );
 };
