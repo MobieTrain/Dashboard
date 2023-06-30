@@ -23,4 +23,7 @@ export class User extends BaseEntity {
 
     @Column()
     eula_accepted_at: Date;
+
+    @Column()
+    deleted_at: Date;
 }

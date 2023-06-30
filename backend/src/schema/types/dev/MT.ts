@@ -10,7 +10,8 @@ export const UserMT = new GraphQLObjectType({
         first_name: { type: GraphQLString },
         last_name: { type: GraphQLString },
         last_me: { type: DateType },
-        eula_accepted_at: { type: DateType }
+        eula_accepted_at: { type: DateType },
+        deleted_at: { type: DateType},
     }
 });
 
@@ -32,8 +33,8 @@ export const LearningPathMT = new GraphQLObjectType({
     }
 });
 
-export const NumberOfPublishedLearningPaths = new GraphQLObjectType({
-    name: 'NumberOfPublishedLearningPaths',
+export const CountResponse = new GraphQLObjectType({
+    name: 'CountResponse',
     fields: {
         count: { type: GraphQLInt },
     }
@@ -44,12 +45,5 @@ export const ModuleMT = new GraphQLObjectType({
     fields: {
         id: { type: GraphQLID },
         title: { type: GraphQLString },
-    }
-});
-
-export const NumberOfPublishedLearningMoments = new GraphQLObjectType({
-    name: 'NumberOfPublishedLearningMoments',
-    fields: {
-        count: { type: GraphQLInt },
     }
 });
