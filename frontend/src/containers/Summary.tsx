@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { UserStatisticsResult } from './types';
 
 type SummaryItem = {
     numberText: string;
@@ -16,23 +17,17 @@ const SummaryItem: React.FC<SummaryItem> = ({ numberText, text, style }) => {
     );
 };
 
-export const Summary: React.FC<any> = ({ data }) => {
-    // const { loading, error, data: statisticsData } = useQuery(GET_USER_REGISTRATION_STATISTICS);
+export const Summary: React.FC<UserStatisticsResult> = ({ totalUsers, registeredUsers }) => {
 
-    // if (loading) return <p>Loading...</p>;
-    // if (error) return <p>Upps...There is an error. :( </p>;
-    // const data = statisticsData?.getUserRegistrationStatistics;
-    console.log(data);
+    const averageRegisteredUsers = (registeredUsers * 100 / totalUsers).toFixed(2);
 
     return (
-        <>
-            <div className='grid h-64 grid-cols-4 gap-6 m-10'>
-                <SummaryItem numberText={data.totalInvitations} text='Invited users' style='border-8 border-mt-orange'></SummaryItem>
-                <SummaryItem numberText={`${data.average} %`} text='Registered out of invited ' style='row-span-2 bg-emerald-300'></SummaryItem>
-                <SummaryItem numberText={data.totalRegisteredUsers} text='Active users' style='col-span-2 row-span-2 border-8 border-mt-orange'></SummaryItem>
-                <SummaryItem numberText={data.totalRegisteredUsers} text='Registered users' style='"text-white bg-mt-orange'></SummaryItem>
-            </div>
-        </>
+        <div className='grid h-64 grid-cols-4 gap-6 m-10'>
+            <SummaryItem numberText={totalUsers.toString()} text='Invited users' style='border-8 border-mt-orange' />
+            <SummaryItem numberText={`${averageRegisteredUsers} %`} text='Registered out of invited ' style='row-span-2 bg-emerald-300' />
+            <SummaryItem numberText={registeredUsers.toString()} text='Active users' style='col-span-2 row-span-2 border-8 border-mt-orange' />
+            <SummaryItem numberText={registeredUsers.toString()} text='Registered users' style='"text-white bg-mt-orange' />
+        </div>
     );
 };
 
