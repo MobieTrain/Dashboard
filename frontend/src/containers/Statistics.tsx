@@ -2,7 +2,7 @@ import { useLazyQuery } from '@apollo/client';
 import * as React from 'react';
 import { useState } from 'react';
 import { GET_PUBLISHED_LEPAS } from '../queries/dev/lepa';
-import { GET_REGISTERED_USERS_PER_CLIENT, GET_USERS_PER_CLIENT } from '../queries/dev/registeredUsers';
+import { GET_ACTIVE_USERS_PER_CLIENT, GET_REGISTERED_USERS_PER_CLIENT, GET_USERS_PER_CLIENT } from '../queries/dev/users';
 import { LepaStatistics } from './LepaStatistics';
 import { Summary } from './Summary';
 import { LepaStatisticsResult, StatisticsResult } from './types';
@@ -10,11 +10,12 @@ import { LepaStatisticsResult, StatisticsResult } from './types';
 export const Statistics: React.FC = () => {
 
     const [accountId, setAccountId] = useState('');
-    const [statistics, setStatistics] = useState<StatisticsResult>({ users: { totalUsers: 0, registeredUsers: 0 }, lepas: [] });
+    const [statistics, setStatistics] = useState<StatisticsResult>({ users: { activeUsers: 0, totalUsers: 0, registeredUsers: 0 }, lepas: [] });
 
     // TODO: Handle errors and loading status
     const [getUsersPerClient] = useLazyQuery(GET_USERS_PER_CLIENT);
     const [getRegisteredUsers] = useLazyQuery(GET_REGISTERED_USERS_PER_CLIENT);
+    const [getActiveUsers] = useLazyQuery(GET_ACTIVE_USERS_PER_CLIENT);
     const [getPublishedLepas] = useLazyQuery(GET_PUBLISHED_LEPAS);
 
 
@@ -32,6 +33,7 @@ export const Statistics: React.FC = () => {
     const search = async () => {
         const result: StatisticsResult = {
             users: {
+                activeUsers: 0,
                 registeredUsers: 0,
                 totalUsers: 0,
             },
@@ -42,6 +44,12 @@ export const Statistics: React.FC = () => {
             .then(data => {
                 const { data: response } = data;
                 result.users.registeredUsers = response?.getRegisteredUsersPerClient.length;
+            })
+            .catch(error => console.log(error));
+        await getActiveUsers({ variables: { accountId: parseInt(accountId, 10) } })
+            .then(data => {
+                const { data: response } = data;
+                result.users.activeUsers = response?.getActiveUsersByAccountCount.count;
             })
             .catch(error => console.log(error));
         await getUsersPerClient({ variables: { accountId: parseInt(accountId, 10) } })
@@ -84,7 +92,7 @@ export const Statistics: React.FC = () => {
     return <>
         Account ID: <input type='number' value={accountId} onChange={handleOnChange} />
         <button onClick={handleOnClick}>Search</button>
-        <Summary totalUsers={statistics.users.totalUsers} registeredUsers={statistics.users.registeredUsers} />
+        <Summary totalUsers={statistics.users.totalUsers} registeredUsers={statistics.users.registeredUsers} activeUsers={statistics.users.activeUsers} />
         <LepaStatistics data={statistics.lepas} />
     </>;
 };
