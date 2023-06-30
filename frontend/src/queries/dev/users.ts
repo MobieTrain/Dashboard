@@ -19,3 +19,10 @@ query GetRegisteredUsersPerClient($accountId: Int) {
       eula_accepted_at
     }
   }`;
+
+export const GET_ACTIVE_USERS_PER_CLIENT = gql`
+query GetActiveUsersByAccountCount($accountId: Int) {
+  getActiveUsersByAccountCount(accountId: $accountId) {
+      count
+    }
+  }`;

@@ -17,15 +17,16 @@ const SummaryItem: React.FC<SummaryItem> = ({ numberText, text, style }) => {
     );
 };
 
-export const Summary: React.FC<UserStatisticsResult> = ({ totalUsers, registeredUsers }) => {
+export const Summary: React.FC<UserStatisticsResult> = ({ totalUsers, registeredUsers, activeUsers }) => {
 
-    const averageRegisteredUsers = (registeredUsers * 100 / totalUsers).toFixed(2);
+    const averageRegisteredUsers = registeredUsers * 100 / totalUsers;
+    const averageRegisteredUsersString = isNaN(averageRegisteredUsers) ? '0' : averageRegisteredUsers.toFixed(2);
 
     return (
         <div className='grid h-64 grid-cols-4 gap-6 m-10'>
             <SummaryItem numberText={totalUsers.toString()} text='Invited users' style='border-8 border-mt-orange' />
-            <SummaryItem numberText={`${averageRegisteredUsers} %`} text='Registered out of invited ' style='row-span-2 bg-emerald-300' />
-            <SummaryItem numberText={registeredUsers.toString()} text='Active users' style='col-span-2 row-span-2 border-8 border-mt-orange' />
+            <SummaryItem numberText={`${averageRegisteredUsersString} %`} text='Registered out of invited ' style='row-span-2 bg-emerald-300' />
+            <SummaryItem numberText={activeUsers.toString()} text='Active users' style='col-span-2 row-span-2 border-8 border-mt-orange' />
             <SummaryItem numberText={registeredUsers.toString()} text='Registered users' style='"text-white bg-mt-orange' />
         </div>
     );

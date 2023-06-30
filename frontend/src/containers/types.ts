@@ -4,6 +4,7 @@ export type LepaStatisticsResult = {
 }
 
 export type UserStatisticsResult = {
+    activeUsers: number;
     registeredUsers: number;
     totalUsers: number;
 }
