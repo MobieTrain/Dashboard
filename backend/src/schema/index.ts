@@ -6,6 +6,7 @@ import { GET_USERS_MT } from './queries/dev/Users';
 import { GET_LEARNING_PATHS, GET_NUMBER_OF_PUBLISHED_LEARNING_PATHS, GET_PUBLISHED_LEARNING_PATHS } from './queries/dev/LearningPaths';
 import { GET_NUMBER_OF_PUBLISHED_LEARNING_MOMENTS, GET_PUBLISHED_LEARNING_MOMENTS, GET_PUBLISHED_LEARNING_MOMENTS_WITH_FULL_TITLES } from './queries/dev/LearningMoments';
 import { GET_ACTIVE_USERS_BY_ACCOUNT, GET_ACTIVE_USERS_BY_ACCOUNT_AND_DAY, GET_ACTIVE_USERS_BY_ACCOUNT_AND_DAY_COUNT, GET_ACTIVE_USERS_BY_ACCOUNT_COUNT, GET_ACTIVE_USERS_BY_DAY, GET_ACTIVE_USERS_BY_DAY_COUNT } from './queries/dev/ActiveUsers';
+import { GET_ACCOUNTS } from './queries/dev/Accounts';
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQuery',
@@ -16,6 +17,7 @@ const RootQuery = new GraphQLObjectType({
         getUsersByRole: GET_USERS_BY_ROLE,
         // MT
         getUsersMT: GET_USERS_MT,
+        getAccountsMT: GET_ACCOUNTS,
         // Metric 1.1
         getUsersPerClient: GET_USERS_PER_CLIENT,
         getRegisteredUsersPerClient: GET_REGISTERED_USERS_PER_CLIENT,
