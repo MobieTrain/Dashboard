@@ -6,6 +6,7 @@ import { GET_ACTIVE_USERS_PER_CLIENT, GET_REGISTERED_USERS_PER_CLIENT, GET_USERS
 import { LepaStatistics } from './LepaStatistics';
 import { Summary } from './Summary';
 import { LepaStatisticsResult, StatisticsResult } from './types';
+import { Dropdown } from '../components/Dropdown';
 
 export const Statistics: React.FC = () => {
 
@@ -90,6 +91,7 @@ export const Statistics: React.FC = () => {
     };
 
     return <>
+        <Dropdown />
         Account ID: <input type='number' value={accountId} onChange={handleOnChange} />
         <button onClick={handleOnClick}>Search</button>
         <Summary totalUsers={statistics.users.totalUsers} registeredUsers={statistics.users.registeredUsers} activeUsers={statistics.users.activeUsers} />
