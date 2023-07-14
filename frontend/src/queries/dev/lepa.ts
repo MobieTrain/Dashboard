@@ -10,3 +10,11 @@ query getPublishedLearningPathsMT {
       
     }
   }`;
+
+export const GET_PUBLISHED_LEPAS_PER_CLIENT = gql`
+query GetPublishedLearningPathsPerClientMT($accountId: Int) {
+    getPublishedLearningPathsPerClientMT(accountId: $accountId) {
+        total
+        published
+    }
+  }`;

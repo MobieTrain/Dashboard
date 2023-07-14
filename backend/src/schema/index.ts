@@ -1,12 +1,12 @@
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 import { CREATE_USER } from './mutations/User';
 import { GET_USERS, GET_USERS_BY_COUNTRY, GET_USERS_BY_ROLE, GET_USER_REGISTRATION_STATISTICS } from './queries/User';
+import { GET_ACCOUNTS } from './queries/dev/Accounts';
+import { GET_ACTIVE_USERS_BY_ACCOUNT, GET_ACTIVE_USERS_BY_ACCOUNT_AND_DAY, GET_ACTIVE_USERS_BY_ACCOUNT_AND_DAY_COUNT, GET_ACTIVE_USERS_BY_ACCOUNT_COUNT, GET_ACTIVE_USERS_BY_DAY, GET_ACTIVE_USERS_BY_DAY_COUNT } from './queries/dev/ActiveUsers';
+import { GET_NUMBER_OF_PUBLISHED_LEARNING_MOMENTS, GET_PUBLISHED_LEARNING_MOMENTS, GET_PUBLISHED_LEARNING_MOMENTS_WITH_FULL_TITLES } from './queries/dev/LearningMoments';
+import { GET_LEARNING_PATHS, GET_NUMBER_OF_PUBLISHED_LEARNING_PATHS_PER_CLIENT, GET_PUBLISHED_LEARNING_PATHS } from './queries/dev/LearningPaths';
 import { GET_REGISTERED_USERS_PER_CLIENT, GET_REGISTERED_USERS_PER_CLIENT_PER_DAY, GET_USERS_PER_CLIENT } from './queries/dev/RegisteredUsers';
 import { GET_USERS_MT } from './queries/dev/Users';
-import { GET_LEARNING_PATHS, GET_NUMBER_OF_PUBLISHED_LEARNING_PATHS, GET_PUBLISHED_LEARNING_PATHS } from './queries/dev/LearningPaths';
-import { GET_NUMBER_OF_PUBLISHED_LEARNING_MOMENTS, GET_PUBLISHED_LEARNING_MOMENTS, GET_PUBLISHED_LEARNING_MOMENTS_WITH_FULL_TITLES } from './queries/dev/LearningMoments';
-import { GET_ACTIVE_USERS_BY_ACCOUNT, GET_ACTIVE_USERS_BY_ACCOUNT_AND_DAY, GET_ACTIVE_USERS_BY_ACCOUNT_AND_DAY_COUNT, GET_ACTIVE_USERS_BY_ACCOUNT_COUNT, GET_ACTIVE_USERS_BY_DAY, GET_ACTIVE_USERS_BY_DAY_COUNT } from './queries/dev/ActiveUsers';
-import { GET_ACCOUNTS } from './queries/dev/Accounts';
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQuery',
@@ -32,7 +32,8 @@ const RootQuery = new GraphQLObjectType({
         // Metric 1.3
         getLearningPathsMT: GET_LEARNING_PATHS,
         getPublishedLearningPathsMT: GET_PUBLISHED_LEARNING_PATHS,
-        getNumberOfPublishedLearningPathsMT: GET_NUMBER_OF_PUBLISHED_LEARNING_PATHS,
+        getPublishedLearningPathsPerClientMT: GET_NUMBER_OF_PUBLISHED_LEARNING_PATHS_PER_CLIENT,
+
         // Metric 1.4
         getPublishedLearningMomentsMT: GET_PUBLISHED_LEARNING_MOMENTS,
         getPublishedLearningMomentsWithFullTitlesMT: GET_PUBLISHED_LEARNING_MOMENTS_WITH_FULL_TITLES,
