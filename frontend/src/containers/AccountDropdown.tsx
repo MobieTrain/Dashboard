@@ -3,7 +3,12 @@ import * as React from 'react';
 import Select from 'react-select';
 import { GET_ACCOUNTS } from '../queries/dev/accounts';
 
-export const AccountDropdown = () => {
+type AccountDropdown = {
+    value: any;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export const AccountDropdown: React.FC<AccountDropdown> = ({ value, onChange }) => {
 
     const { loading, error, data } = useQuery(GET_ACCOUNTS);
     if (loading) return <>Loading</>;
@@ -15,6 +20,13 @@ export const AccountDropdown = () => {
             label: account.slug
         };
     });
-    return (<Select options={options} />);
+
+    const handleOnChange = (event: any) => {
+        onChange(event);
+    };
+
+    return <>
+        <Select className='flex-col justify-center w-1/4 m-auto text-center' placeholder='Select account...' value={value} options={options} onChange={handleOnChange} />
+    </>;
 
 };

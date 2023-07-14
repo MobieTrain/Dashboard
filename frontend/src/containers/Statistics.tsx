@@ -10,7 +10,7 @@ import { AccountDropdown } from './AccountDropdown';
 
 export const Statistics: React.FC = () => {
 
-    const [accountId, setAccountId] = useState('');
+    const [accountId, setAccountId] = useState<any>();
     const [statistics, setStatistics] = useState<StatisticsResult>({ users: { activeUsers: 0, totalUsers: 0, registeredUsers: 0 }, lepas: [] });
 
     // TODO: Handle errors and loading status
@@ -23,8 +23,11 @@ export const Statistics: React.FC = () => {
     // if (loading) return <p>Loading...</p>;
     // if (error) return <p>Upps...There is an error. :( </p>;
 
-    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAccountId(event.target.value);
+    console.log('account', accountId);
+
+    const handleOnChange = (value: any) => {
+        setAccountId(value);
+        search();
     };
 
     const handleOnClick = () => {
@@ -41,19 +44,19 @@ export const Statistics: React.FC = () => {
             lepas: []
         };
 
-        await getRegisteredUsers({ variables: { accountId: parseInt(accountId, 10) } })
+        await getRegisteredUsers({ variables: { accountId: parseInt(accountId.value, 10) } })
             .then(data => {
                 const { data: response } = data;
                 result.users.registeredUsers = response?.getRegisteredUsersPerClient.length;
             })
             .catch(error => console.log(error));
-        await getActiveUsers({ variables: { accountId: parseInt(accountId, 10) } })
+        await getActiveUsers({ variables: { accountId: parseInt(accountId.value, 10) } })
             .then(data => {
                 const { data: response } = data;
                 result.users.activeUsers = response?.getActiveUsersByAccountCount.count;
             })
             .catch(error => console.log(error));
-        await getUsersPerClient({ variables: { accountId: parseInt(accountId, 10) } })
+        await getUsersPerClient({ variables: { accountId: parseInt(accountId.value, 10) } })
             .then(data => {
                 const { data: response } = data;
                 result.users.totalUsers = response?.getUsersPerClient.count;
@@ -91,9 +94,7 @@ export const Statistics: React.FC = () => {
     };
 
     return <>
-        <AccountDropdown />
-        Account ID: <input type='number' value={accountId} onChange={handleOnChange} />
-        <button onClick={handleOnClick}>Search</button>
+        <AccountDropdown value={accountId} onChange={handleOnChange} />
         <Summary totalUsers={statistics.users.totalUsers} registeredUsers={statistics.users.registeredUsers} activeUsers={statistics.users.activeUsers} />
         <LepaStatistics data={statistics.lepas} />
     </>;
