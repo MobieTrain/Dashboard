@@ -5,7 +5,7 @@ import { GET_PUBLISHED_LEPAS } from '../queries/dev/lepa';
 import { GET_ACTIVE_USERS_PER_CLIENT, GET_REGISTERED_USERS_PER_CLIENT, GET_USERS_PER_CLIENT } from '../queries/dev/users';
 import { LepaStatistics } from './LepaStatistics';
 import { Summary } from './Summary';
-import { LepaStatisticsResult, StatisticsResult } from './types';
+import { LepaStatisticsResult, StatisticsResult, UserStatisticsResult } from './types';
 import { AccountDropdown, AccountOption } from './AccountDropdown';
 
 export const Statistics: React.FC = () => {
@@ -19,6 +19,16 @@ export const Statistics: React.FC = () => {
     const [getActiveUsers] = useLazyQuery(GET_ACTIVE_USERS_PER_CLIENT);
     const [getPublishedLepas] = useLazyQuery(GET_PUBLISHED_LEPAS);
 
+    React.useEffect(() => {
+        const getLepaStatistics = async () => {
+            const newStatistics = { ...statistics };
+            await lepaStatistics(newStatistics);
+            setStatistics(newStatistics);
+        };
+      
+        getLepaStatistics();
+    }, []);
+
     const handleOnChange = (account: AccountOption) => {
         setAccount(account);
         search(account);
@@ -29,13 +39,10 @@ export const Statistics: React.FC = () => {
             return;
         }
 
-        const result: StatisticsResult = {
-            users: {
-                activeUsers: 0,
-                registeredUsers: 0,
-                totalUsers: 0,
-            },
-            lepas: []
+        const usersResult: UserStatisticsResult = {
+            activeUsers: 0,
+            registeredUsers: 0,
+            totalUsers: 0,
         };
 
         const accountId = parseInt(account.value, 10);
@@ -43,25 +50,26 @@ export const Statistics: React.FC = () => {
         await getRegisteredUsers({ variables: { accountId } })
             .then(data => {
                 const { data: response } = data;
-                result.users.registeredUsers = response?.getRegisteredUsersPerClient.length;
+                usersResult.registeredUsers = response?.getRegisteredUsersPerClient.length;
             })
             .catch(error => console.log(error));
         await getActiveUsers({ variables: { accountId } })
             .then(data => {
                 const { data: response } = data;
-                result.users.activeUsers = response?.getActiveUsersByAccountCount.count;
+                usersResult.activeUsers = response?.getActiveUsersByAccountCount.count;
             })
             .catch(error => console.log(error));
         await getUsersPerClient({ variables: { accountId } })
             .then(data => {
                 const { data: response } = data;
-                result.users.totalUsers = response?.getUsersPerClient.count;
+                usersResult.totalUsers = response?.getUsersPerClient.count;
             })
             .catch(error => console.log(error));
 
-        await lepaStatistics(result);
-
-        setStatistics(result);
+        setStatistics({
+            ...statistics,
+            users: usersResult,
+        });
     };
 
     // TODO: Check how we can improve the statistics shown
