@@ -53,11 +53,11 @@ export const LepaStatistics: React.FC<any> = ({ data }) => {
       <SectionTitle title='LEPA Statistics' />
       <div className='flex items-center justify-center mb-24'>
         <div>
-          <h2>Learning paths published by all accounts</h2>
+          <h2>Published learning paths by accounts</h2>
           <BarChart data={finalData} dataKey='numberOfLepas' xAxisKeys='interval' layout='horizontal' name='Number of accounts' />
         </div>
         <div>
-          <h2>Learning paths published by client</h2>
+          <h2>Published learning paths per account selected</h2>
           <PieChart data={published} dataKey='value' nameKey='status' />
         </div>
       </div>
