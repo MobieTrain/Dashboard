@@ -5,7 +5,6 @@ import { PieChart } from '../components/PieChart';
 // TODO: Think how to improve it
 export const LepaStatistics: React.FC<any> = ({ data }) => {
   const [finalData, setFinalData] = React.useState<any>([]);
-  console.log(finalData);
 
   React.useEffect(() => {
     const intervals = Array(21).fill(1).map((n, i) => i * 5);
@@ -33,9 +32,7 @@ export const LepaStatistics: React.FC<any> = ({ data }) => {
     <>
       <SectionTitle title='LEPA Statistics' />
       <div className='flex justify-center mb-24'>
-        <h1>Test</h1>
-        <PieChart data={finalData} dataKey={'interval'} nameKey={'numberOfLepas'} />
+        <PieChart data={finalData} dataKey='numberOfLepas' nameKey='interval' />
       </div>
-    </>
-    : <p>nothing</p>;
+    </> : null;
 };
