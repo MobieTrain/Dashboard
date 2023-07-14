@@ -8,10 +8,11 @@ export type BarChartProps = {
     xAxisKeys?: string;
     yAxisKeys?: string;
     layout: LayoutType;
+    name: string;
 }
 
 export const BarChart: React.FC<BarChartProps> = (
-    { data, dataKey, xAxisKeys, yAxisKeys, layout }
+    { data, dataKey, xAxisKeys, yAxisKeys, layout, name }
 ) => {
     return (
         <BarChartRechart width={550} height={250} data={data} layout={layout}>
@@ -20,7 +21,7 @@ export const BarChart: React.FC<BarChartProps> = (
             <YAxis dataKey={yAxisKeys} />
             <Tooltip />
             <Legend verticalAlign="top" height={36} />
-            <Bar name="Number of people in each country" dataKey={dataKey} fill="#6ee7b7" />
+            <Bar name={name} dataKey={dataKey} fill="#6ee7b7" />
         </BarChartRechart>
     );
 };
