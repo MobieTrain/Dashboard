@@ -65,17 +65,19 @@ export const Statistics: React.FC = () => {
     };
 
     // TODO: Check how we can improve the statistics shown
-
-    const countLepaByAccountId = (lepas: any) => {
-        const lepaByAccountId = lepas.reduce((acc: LepaStatisticsResult[], curr: any) => {
+    const countLepaByAccountId = (lepas: any): LepaStatisticsResult[] => {
+        const lepaByAccountIdMap = lepas.reduce((acc: any, curr: any) => {
             if (acc[curr.account_id]) {
-                acc[curr.account_id].total += 1;
+                acc[curr.account_id] += 1;
             } else {
-                acc.push({ id: curr.account_id, total: 1 });
+                acc[curr.account_id] = 1;
             }
             return acc;
-        }, []);
-        return lepaByAccountId;
+        }, {});
+        return Object.keys(lepaByAccountIdMap).map(accountId => ({
+            id: Number(accountId),
+            total: lepaByAccountIdMap[Number(accountId)]
+        }));
     };
 
     const lepaStatistics = async (result: StatisticsResult) => {
