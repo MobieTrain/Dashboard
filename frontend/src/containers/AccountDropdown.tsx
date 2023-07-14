@@ -1,11 +1,21 @@
 import { useQuery } from '@apollo/client';
 import * as React from 'react';
-import Select from 'react-select';
+import Select, { SingleValue } from 'react-select';
 import { GET_ACCOUNTS } from '../queries/dev/accounts';
 
 type AccountDropdown = {
-    value: any;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    value?: AccountOption;
+    onChange: (account: AccountOption) => void;
+}
+
+export type AccountOption = {
+    value: string;
+    label: string;
+}
+
+type Account = {
+    id: string;
+    slug: string;
 }
 
 export const AccountDropdown: React.FC<AccountDropdown> = ({ value, onChange }) => {
@@ -14,19 +24,27 @@ export const AccountDropdown: React.FC<AccountDropdown> = ({ value, onChange }) 
     if (loading) return <>Loading</>;
     if (error) return <>Error!</>;
 
-    const options = data?.getAccountsMT.map((account: any) => {
+    const options = data?.getAccountsMT.map((account: Account) => {
         return {
             value: account.id,
             label: account.slug
         };
     });
 
-    const handleOnChange = (event: any) => {
-        onChange(event);
+    const handleOnChange = (account: SingleValue<AccountOption>) => {
+        if (!account) {
+            return;
+        }
+        onChange(account);
     };
 
     return <>
-        <Select className='flex-col justify-center w-1/4 m-auto text-center' placeholder='Select account...' value={value} options={options} onChange={handleOnChange} />
+        <Select
+            className='flex-col justify-center w-1/4 m-auto text-center'
+            placeholder='Select account...'
+            value={value}
+            options={options}
+            onChange={handleOnChange} />
     </>;
 
 };
