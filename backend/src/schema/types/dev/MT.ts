@@ -11,7 +11,15 @@ export const UserMT = new GraphQLObjectType({
         last_name: { type: GraphQLString },
         last_me: { type: DateType },
         eula_accepted_at: { type: DateType },
-        deleted_at: { type: DateType},
+        deleted_at: { type: DateType },
+    }
+});
+
+export const AccountMT = new GraphQLObjectType({
+    name: 'AccountMT',
+    fields: {
+        id: { type: GraphQLID },
+        slug: { type: GraphQLString },
     }
 });
 

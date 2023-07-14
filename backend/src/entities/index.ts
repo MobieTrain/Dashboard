@@ -9,8 +9,9 @@ import { Module } from './dev/Module';
 import { Locale } from './dev/Locale';
 import { Translation } from './dev/Translation';
 import { ModuleProgress } from './dev/ModuleProgress';
+import { Account } from './dev/Account';
 
 export const Entities = {
     LOCAL_DATA: [User, Countries, Roles],
-    MT: [User, AccountUser, LearningPath, Level, Skill, Module, Locale, Translation, ModuleProgress],
+    MT: [User, Account, AccountUser, LearningPath, Level, Skill, Module, Locale, Translation, ModuleProgress],
 };
