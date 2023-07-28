@@ -3,6 +3,13 @@ export type LepaStatisticsResult = {
     total: number;
 }
 
+export type Lepa = {
+    account_id: number;
+    id: string;
+    published: boolean;
+    slug: string;
+}
+
 export type UserStatisticsResult = {
     activeUsers: number;
     registeredUsers: number;

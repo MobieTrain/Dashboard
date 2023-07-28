@@ -25,8 +25,20 @@ export const Table: React.FC<Table> = ({ query }) => {
     const { loading, error, data } = useQuery(query);
     const [isTableShown, setIsTableShown] = useState(false);
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Upps...There is an error. :( </p>;
+    if (loading) {
+        return (
+            <h6 className='flex-col justify-center w-1/4 m-auto text-center'>
+                Loading...
+            </h6>);
+    }
+
+    if (error) {
+        return (
+            <h6 className='flex-row justify-center w-1/4 m-auto text-center'>
+                Oops! There is an error:
+                <p>{error.message}</p>
+            </h6>);
+    }
     const users = data?.getUsers || data?.getUsersMT;
 
     const handleShowTable = () => {
