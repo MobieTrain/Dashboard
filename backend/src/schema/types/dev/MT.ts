@@ -55,6 +55,14 @@ export const CountResponse = new GraphQLObjectType({
     }
 });
 
+export const publishedPaths = new GraphQLObjectType({
+    name: 'PublishedPaths',
+    fields: {
+        total: { type: GraphQLInt },
+        published: { type: GraphQLInt },
+    }
+});
+
 export const ModuleMT = new GraphQLObjectType({
     name: 'ModuleMT',
     fields: {
