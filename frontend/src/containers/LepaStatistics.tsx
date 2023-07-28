@@ -2,64 +2,63 @@ import * as React from 'react';
 import { SectionTitle } from '../components/SectionTitle';
 import { PieChart } from '../components/PieChart';
 import { BarChart } from '../components/BarChart';
+import { LepaStatisticsResult, StatisticsResult } from './types';
 
-export const LepaStatistics: React.FC<any> = ({ data }) => {
-  const [finalData, setFinalData] = React.useState<any>([]);
-  const [published, setPublished] = React.useState<any>([]);
+type LepaStatisticsProps = {
+  data: StatisticsResult;
+}
 
-  React.useEffect(() => {
-    if (!data) {
-      return;
-    }
-    const intervals = Array(21).fill(1).map((n, i) => i * 5);
-    const dataByIntervalsMap = data?.lepas.reduce((acc: any, account: any) => {
+export const LepaStatistics: React.FC<LepaStatisticsProps> = ({ data }) => {
+
+  const lepasPublishedPerClient = data?.publishedPerClient;
+  const publishedLepaPerClientForChart = [
+    { status: 'Published', value: lepasPublishedPerClient.published },
+    { status: 'Draft', value: lepasPublishedPerClient.total - lepasPublishedPerClient.published }
+  ];
+
+  const intervals = Array(21).fill(1).map((n, i) => i * 5);
+  const computeGlobalLepasByIntervals = () => {
+    return data?.lepas.reduce((acc: Map<number, number>, account: LepaStatisticsResult) => {
       const { total } = account;
-      for (const value of Array.from(Array(intervals.length).keys())) {
-        if (total > intervals[value] && (intervals[value + 1] ? total <= intervals[value + 1] : true)) {
-          if (acc[intervals[value]]) {
-            acc[intervals[value]] += 1;
-          } else {
-            acc[intervals[value]] = 1;
-          }
-        }
+      const intervalIndex = intervals.findIndex((interval, index) => {
+        const nextInterval = intervals[index + 1];
+        return total > interval && (nextInterval ? total <= nextInterval : true);
+      });
+      if (intervalIndex !== -1) {
+        const interval = intervals[intervalIndex];
+        acc.set(interval, (acc.get(interval) || 0) + 1);
       }
       return acc;
-    }, {});
+    }, new Map());
+  };
 
-    const finalData = Object.keys(dataByIntervalsMap).map((interval) => {
-      const intervalIndex = intervals.findIndex(x => x === parseInt(interval, 10));
-      if (intervalIndex === -1) return null;
-      const nextIntervalIndex = intervalIndex + 1;
-      return {
-        interval: intervals[nextIntervalIndex] ? `${parseInt(interval, 10) + 1}-${intervals[nextIntervalIndex]}` : `>${interval}`,
-        numberOfLepas: dataByIntervalsMap[interval]
-      };
-    });
+  const globalLepasByIntervalsMap = computeGlobalLepasByIntervals();
+  const globalLepasForChart = intervals.map((interval, index) => {
+    const nextInterval = intervals[index + 1];
+    const numberOfLepas = globalLepasByIntervalsMap.get(interval) || 0;
+    return {
+      interval: nextInterval ? `${interval + 1}-${nextInterval}` : `>${interval}`,
+      numberOfLepas
+    };
+  }).filter(data => data.numberOfLepas > 0);
 
-    setFinalData(finalData);
+  if (globalLepasForChart.length === 0) {
+    return <h6 className='flex-row justify-center w-1/4 m-auto text-center'>
+      No data
+    </h6>;
+  }
 
-
-    // published
-    const x = [
-      { status: 'Published', value: data?.publishedPerClient?.published },
-      { status: 'Draft', value: data?.publishedPerClient?.total - data?.publishedPerClient?.published }
-    ];
-
-    setPublished(x);
-  }, [data]);
-
-  return finalData.length ?
-    <>
-      <SectionTitle title='LEPA Statistics' />
-      <div className='flex items-center justify-center mb-24'>
-        <div>
-          <h2>Published learning paths by accounts</h2>
-          <BarChart data={finalData} dataKey='numberOfLepas' xAxisKeys='interval' layout='horizontal' name='Number of accounts' />
-        </div>
-        <div>
-          <h2>Published learning paths per account selected</h2>
-          <PieChart data={published} dataKey='value' nameKey='status' />
-        </div>
+  return <>
+    <SectionTitle title='LEPA Statistics' />
+    <div className='flex items-center justify-center mb-24'>
+      <div className='text-center'>
+        <h2>Published learning paths per clients</h2>
+        <BarChart data={globalLepasForChart} dataKey='numberOfLepas' xAxisKeys='interval' layout='horizontal' name='Number of accounts' />
       </div>
-    </> : null;
+      <div className='text-center'>
+        <h2>Published learning paths per client selected</h2>
+        <PieChart data={publishedLepaPerClientForChart} dataKey='value' nameKey='status' />
+      </div>
+    </div>
+  </>;
 };
