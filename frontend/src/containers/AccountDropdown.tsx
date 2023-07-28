@@ -21,8 +21,20 @@ type Account = {
 export const AccountDropdown: React.FC<AccountDropdown> = ({ value, onChange }) => {
 
     const { loading, error, data } = useQuery(GET_ACCOUNTS);
-    if (loading) return <>Loading</>;
-    if (error) return <>Error!</>;
+    if (loading) {
+        return (
+            <h6 className='flex-col justify-center w-1/4 m-auto text-center'>
+                Loading...
+            </h6>);
+    }
+
+    if (error) {
+        return (
+            <h6 className='flex-row justify-center w-1/4 m-auto text-center'>
+                Oops! There is an error:
+                <p>{error.message}</p>
+            </h6>);
+    }
 
     const options = data?.getAccountsMT.map((account: Account) => {
         return {

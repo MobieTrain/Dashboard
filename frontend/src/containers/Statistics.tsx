@@ -1,129 +1,101 @@
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import * as React from 'react';
 import { useState } from 'react';
 import { GET_PUBLISHED_LEPAS, GET_PUBLISHED_LEPAS_PER_CLIENT } from '../queries/dev/lepa';
 import { GET_ACTIVE_USERS_PER_CLIENT, GET_REGISTERED_USERS_PER_CLIENT, GET_USERS_PER_CLIENT } from '../queries/dev/users';
 import { LepaStatistics } from './LepaStatistics';
 import { Summary } from './Summary';
-import { LepaStatisticsResult, PublishedLepas, StatisticsResult, UserStatisticsResult } from './types';
+import { Lepa, LepaStatisticsResult, StatisticsResult, UserStatisticsResult } from './types';
 import { AccountDropdown, AccountOption } from './AccountDropdown';
+
+const usersInitialState: UserStatisticsResult = {
+    activeUsers: 0,
+    registeredUsers: 0,
+    totalUsers: 0,
+};
+
+const initialState = {
+    users: usersInitialState,
+    lepas: [],
+    publishedPerClient: { total: 0, published: 0 }
+};
 
 export const Statistics: React.FC = () => {
 
     const [account, setAccount] = useState<AccountOption>();
-    const [statistics, setStatistics] = useState<StatisticsResult>(
-        {
-            users: { activeUsers: 0, totalUsers: 0, registeredUsers: 0 },
-            lepas: [],
-            publishedPerClient: { total: 0, published: 0 }
-        });
+    const [statistics, setStatistics] = useState<StatisticsResult>(initialState);
 
     // TODO: Handle errors and loading status
+    const { data: allLepasInfo } = useQuery(GET_PUBLISHED_LEPAS);
     const [getUsersPerClient] = useLazyQuery(GET_USERS_PER_CLIENT);
     const [getRegisteredUsers] = useLazyQuery(GET_REGISTERED_USERS_PER_CLIENT);
     const [getActiveUsers] = useLazyQuery(GET_ACTIVE_USERS_PER_CLIENT);
-    const [getPublishedLepas] = useLazyQuery(GET_PUBLISHED_LEPAS);
     const [getPublishedLepasPerClient] = useLazyQuery(GET_PUBLISHED_LEPAS_PER_CLIENT);
 
-    React.useEffect(() => {
-        const getLepaStatistics = async () => {
-            const newStatistics = { ...statistics };
-            await lepaStatistics(newStatistics);
-            setStatistics(newStatistics);
-        };
+    const computeLepaByAccountId = (lepas: Lepa[]): LepaStatisticsResult[] => {
+        const lepaByAccountIdMap = lepas.reduce((acc: Map<number, number>, curr: Lepa) => {
+            const currentValue = acc.get(curr.account_id);
+            if (currentValue) {
+                acc.set(curr.account_id, currentValue + 1);
+            } else {
+                acc.set(curr.account_id, 1);
+            }
+            return acc;
+        }, new Map());
 
-        getLepaStatistics();
-    }, []);
+        return Array.from(lepaByAccountIdMap.entries()).map(([key, value]) => ({
+            id: key,
+            total: value
+        }));
+    };
+
+    if (allLepasInfo && statistics.lepas.length === 0) {
+        const publishedLepas = allLepasInfo?.getPublishedLearningPathsMT;
+        const totalLepaByAccountsId = computeLepaByAccountId(publishedLepas);
+        setStatistics({ ...statistics, lepas: totalLepaByAccountsId });
+    }
 
     const handleOnChange = (account: AccountOption) => {
         setAccount(account);
-        search(account);
+        getStatisticsPerClient(account);
     };
 
-    const search = async (account: AccountOption) => {
+    const getStatisticsPerClient = async (account: AccountOption) => {
         if (!account?.value) {
             return;
         }
 
-        const usersResult: UserStatisticsResult = {
-            activeUsers: 0,
-            registeredUsers: 0,
-            totalUsers: 0,
-        };
-
         const accountId = parseInt(account.value, 10);
-
-        await getRegisteredUsers({ variables: { accountId } })
-            .then(data => {
-                const { data: response } = data;
-                usersResult.registeredUsers = response?.getRegisteredUsersPerClient.length;
-            })
-            .catch(error => console.log(error));
-        await getActiveUsers({ variables: { accountId } })
-            .then(data => {
-                const { data: response } = data;
-                usersResult.activeUsers = response?.getActiveUsersByAccountCount.count;
-            })
-            .catch(error => console.log(error));
-        await getUsersPerClient({ variables: { accountId } })
-            .then(data => {
-                const { data: response } = data;
-                usersResult.totalUsers = response?.getUsersPerClient.count;
-            })
-            .catch(error => console.log(error));
-
-        const { total, published } = await lepaPublishStatistics(accountId);
+        const users = await getUsersStatistics(accountId);
+        const publishedPerClient = await getPublishedLepaPerClientStatistics(accountId);
 
         setStatistics({
             ...statistics,
-            users: usersResult,
-            publishedPerClient: {
-                total,
-                published
-            }
+            users,
+            publishedPerClient
         });
     };
 
-    // TODO: Check how we can improve the statistics shown
-    const countLepaByAccountId = (lepas: any): LepaStatisticsResult[] => {
-        const lepaByAccountIdMap = lepas.reduce((acc: any, curr: any) => {
-            if (acc[curr.account_id]) {
-                acc[curr.account_id] += 1;
-            } else {
-                acc[curr.account_id] = 1;
-            }
-            return acc;
-        }, {});
-        return Object.keys(lepaByAccountIdMap).map(accountId => ({
-            id: Number(accountId),
-            total: lepaByAccountIdMap[Number(accountId)]
-        }));
-    };
-
-    const lepaStatistics = async (result: StatisticsResult) => {
-        await getPublishedLepas()
-            .then(data => {
-                const { data: response } = data;
-                const publishedLepas = response?.getPublishedLearningPathsMT;
-                const totalLepaByAccountsId = countLepaByAccountId(publishedLepas);
-                result.lepas = totalLepaByAccountsId;
-            })
-            .catch(error => console.log(error));
-    };
-
-    const lepaPublishStatistics = async (accountId: number) => {
-        let result: PublishedLepas = {
-            total: 0,
-            published: 0
-        };
-        await getPublishedLepasPerClient({ variables: { accountId } })
-            .then(data => {
-                const { data: response } = data;
-                const publishedLepas = response?.getPublishedLearningPathsPerClientMT;
-                result = publishedLepas;
-            })
-            .catch(error => console.log(error));
+    const getUsersStatistics = async (accountId: number) => {
+        const result: UserStatisticsResult = usersInitialState;
+        const [registeredUsersData, activeUsersData, usersPerClientData] = await Promise.all([
+            getRegisteredUsers({ variables: { accountId } }),
+            getActiveUsers({ variables: { accountId } }),
+            getUsersPerClient({ variables: { accountId } })
+        ]);
+        result.registeredUsers = registeredUsersData?.data?.getRegisteredUsersPerClient.length;
+        result.activeUsers = activeUsersData?.data?.getActiveUsersByAccountCount.count;
+        result.totalUsers = usersPerClientData?.data?.getUsersPerClient.count;
         return result;
+    };
+
+    const getPublishedLepaPerClientStatistics = async (accountId: number) => {
+        const { data } = await getPublishedLepasPerClient({ variables: { accountId } });
+        const publishedLepas = data?.getNumberPublishedLearningPathsPerClientMT;
+        return {
+            total: publishedLepas?.total ?? 0,
+            published: publishedLepas?.published ?? 0
+        };
     };
 
     return <>

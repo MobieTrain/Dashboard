@@ -20,6 +20,11 @@
         "react",
         "@typescript-eslint"
     ],
+    "settings": {
+        "react": {
+            "version": "18.0"
+        }
+    },
     "rules": {
         "semi": [
             "error",

@@ -32,7 +32,7 @@ const RootQuery = new GraphQLObjectType({
         // Metric 1.3
         getLearningPathsMT: GET_LEARNING_PATHS,
         getPublishedLearningPathsMT: GET_PUBLISHED_LEARNING_PATHS,
-        getPublishedLearningPathsPerClientMT: GET_NUMBER_OF_PUBLISHED_LEARNING_PATHS_PER_CLIENT,
+        getNumberPublishedLearningPathsPerClientMT: GET_NUMBER_OF_PUBLISHED_LEARNING_PATHS_PER_CLIENT,
 
         // Metric 1.4
         getPublishedLearningMomentsMT: GET_PUBLISHED_LEARNING_MOMENTS,
